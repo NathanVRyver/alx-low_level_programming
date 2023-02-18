@@ -1,43 +1,47 @@
 #include <stdio.h>
-#include <stdlib.h>
+
 /**
  * main - Entry point
- *
- * Return: Always 0 (Success)
+ * Description: It prints all possible combinations
+ *		of two two-digit numbers.
+ * Return: Always 0 (success)
  */
 int main(void)
 {
-        int  x, y, z, w, aux;
-        for (x = '0'; x <= '9'; x++)
-        {
-                for (y = '0' ; y <= '9'; y++)
-                {
-                        for (z = x ; z <= '9'; z++)
-                        {
-                                if (z == x)
-                                {
-                                        aux = y + 1;
-                                }
-                                else
-                                {
-                                        aux = '0';
-                                }
-                                for (w = aux; w <= '9'; w++)
-                                {
-                                        putchar(x);
-                                        putchar(y);
-                                        putchar(' ');
-                                        putchar(z);
-                                        putchar(w);
-                                        if (!(x == '9' && y == '8' && z == '9' && w == '9'))
-                                        {
-                                                putchar(',');
-                                                putchar(' ');
-                                        }
-                                }
-                        }
-                }
-        }
-        putchar('\n');
-        return (0);
+	int num1 = 48, x = 57;
+	int num2, num3, num4;
+
+	while (num1 <= x)
+	{
+		for (num2 = 48; num2 <= x; num2++)
+		{
+		for (num3 = 48; num3 <= x; num3++)
+		{
+		for (num4 = 48; num4 <= x; num4++)
+		{
+			if (num1 <= num3)
+			{
+				if (num1 == num3 && num2 >= num4)
+				{
+					continue;
+				}
+				putchar(num1);
+				putchar(num2);
+				putchar(32);
+				putchar(num3);
+				putchar(num4);
+				if (num4 != x || num3 != x || num2 != x - 1 || num1 != x)
+				{
+				putchar(44);
+				putchar(32);
+				}
+
+			}
+		}
+		}
+		}
+		num1++;
+	}
+	putchar(10);
+	return (0);
 }
