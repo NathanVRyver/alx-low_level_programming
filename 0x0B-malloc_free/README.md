@@ -1,4 +1,4 @@
-# Alx Project - 0x0B. C - malloc, free
+# ALX Project - 0x0B. C - malloc, free
 
 
 This is an ALX project where the goal is to learn about memory allocation in C. 
