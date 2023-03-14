@@ -1,3 +1,5 @@
+#include "main.h"
+#include <stdlib.h>
 /**
  * str_concat - Concatenates two strings.
  * @s1: The first string to be concatenated.
@@ -37,4 +39,3 @@ char *str_concat(char *s1, char *s2)
 
 	return (concat);
 }
-
