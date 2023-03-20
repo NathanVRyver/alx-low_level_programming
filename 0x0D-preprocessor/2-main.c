@@ -1,13 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 /**
- * A function that returns the name of the file it was compiled from 
- *
- * Return: __FILE__
- *
- * PART OF THE ALX PREPROCESSOR PROJECT
- */
-
+*main - Function that prints the name of the files it was compile from
+*Return: Always success (0)
+*/
 
 int main(void)
 {
