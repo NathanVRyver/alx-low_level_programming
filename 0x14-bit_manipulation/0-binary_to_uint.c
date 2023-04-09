@@ -8,11 +8,21 @@
  * @len: the length of the array of chars to be converted
  */
 
+int _strlen(const char *b)
+{
+	int i;
+	if (b == NULL)
+		return (0);
+	for (i = 0; *(b+1) != '\0'; i++)
+		;
+	return (i);
+}
+
 unsigned int binary_to_uint(const char *b)
 {
 	unsigned int converted_value = 0;
 	unsigned int bit_value = 1;
-	unsigned int len = strlen(b);
+	unsigned int len = _strlen(b);
 	unsigned int i;
 
 	if (b == NULL)
