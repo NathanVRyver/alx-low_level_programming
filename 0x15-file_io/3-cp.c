@@ -1,59 +1,70 @@
 #include "main.h"
 
 /**
- * error_handle - handles errors.
- * @f1: 1st file descriptor.
- * @f2: 2nd file descriptor.
- * @f1_name: 1st file name.
- * @f2_name: 2nd file name.
- *
- * Return: nothing.
+ * error_check - checks if files can be opened.
+ * @file_from: source file.
+ * @file_to: destination file.
+ * @argv: arguments vector.
+ * Return: no return.
  */
-void error_handle(int f1, int f2, char *f1_name, char *f2_name)
+void error_check(int file_from, int file_to, char *argv[])
 {
-	if (f1 == -1)
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", f1_name), exit(98);
-
-	if (f2 == -1)
-		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", f2_name), exit(99);
+	if (file_from == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n",
+			argv[1]);
+		exit(98);
+	}
+	if (file_to == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
+		exit(99);
+	}
 }
 
 /**
- * main - copies the content of a file to another file.
+ * main - copies the content of a file to another file
  * @argc: number of arguments.
  * @argv: arguments vector.
- *
  * Return: Always 0.
  */
 int main(int argc, char *argv[])
 {
-	int fd_r, fd_w, a, b;
-	ssize_t n, w;
+	int file_from, file_to, erxrx_close;
+	ssize_t chars_read, chars_written;
 	char buffer[1024];
 
 	if (argc != 3)
-		dprintf(STDERR_FILENO, "%s\n", "Usage: cp file_from file_to"), exit(97);
-
-	fd_r = open(argv[1], O_RDONLY), fd_w = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
-	error_handle(fd_r, fd_w, argv[1], argv[2]);
-
-	while ((n = read(fd_r, buffer, 1024)) > 0)
 	{
-		w = write(fd_w, buffer, n);
-		if (w < n)
-			error_handle(-1, fd_w, "", argv[2]);
+		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
+		exit(97);
 	}
 
-	if (n == -1)
-		error_handle(-1, 0, argv[1], ""), exit(98);
+	file_from = open(argv[1], O_RDONLY);
+	file_to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC | O_APPEND, 0664);
+	error_check(file_from, file_to, argv);
 
-	a = close(fd_r), b = close(fd_w);
-	if (a == -1 || b == -1)
+	while ((chars_read = read(file_from, buffer, 1024)) > 0)
 	{
-		if (a == -1)
-			dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_r);
-		if (b == -1)
-			dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_w);
+		chars_written = write(file_to, buffer, chars_read);
+		if (chars_written == -1)
+			error_check(0, -1, argv);
+	}
+
+	if (chars_read == -1)
+		error_check(-1, 0, argv);
+
+	erxrx_close = close(file_from);
+	if (erxrx_close == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", file_from);
+		exit(100);
+	}
+
+	erxrx_close = close(file_to);
+	if (erxrx_close == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", file_from);
 		exit(100);
 	}
 	return (0);
